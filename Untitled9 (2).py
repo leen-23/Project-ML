@@ -229,9 +229,39 @@ corpus = data["text"].tolist()
 # In[19]:
 
 
+import streamlit as st
+from sklearn.feature_extraction.text import TfidfVectorizer
+import joblib
+from sklearn.feature_extraction.text import TfidfVectorizer
 
-get_ipython().run_cell_magic('writefile', 'my_streamlit_app.py', 'import streamlit as st\nfrom sklearn.feature_extraction.text import TfidfVectorizer\nimport joblib\nfrom sklearn.feature_extraction.text import TfidfVectorizer\n\n# تهيئة وتدريب متجه TF-IDF\nvectorizer = TfidfVectorizer()\nvectorizer.fit(corpus)\n\n# حفظ المتجه TF-IDF\nimport joblib\njoblib.dump(vectorizer, "tfidf_vectorizer.pkl")\n# تحميل النموذج المدرب والمتجه\nmodel = joblib.load("model.pkl")\nvectorizer = joblib.load("tfidf_vectorizer.pkl")\n\n# تحديد العناصر الواجهة\nst.title("Classifying sentiments ")\ntext_input = st.text_input("Please enter text:")\n\n# التنبؤ بالتصنيف\nif text_input:\n    # تحويل النص إلى متجه TF-IDF\n    text_vectorized = vectorizer.transform([text_input])\n    # التنبؤ باستخدام النموذج\n    prediction = model.predict(text_vectorized)\n    # عرض نتيجة التنبؤ\n    if prediction == 1:\n        st.write("Positive: إيجابي")\n    elif prediction == -1:\n        st.write("Negative: سلبي")\n    else:\n        st.write("Neutral: طبيعي")')
+# تهيئة وتدريب متجه TF-IDF
+vectorizer = TfidfVectorizer()
+vectorizer.fit(corpus)
 
+# حفظ المتجه TF-IDF
+import joblib
+joblib.dump(vectorizer, "tfidf_vectorizer.pkl")
+# تحميل النموذج المدرب والمتجه
+model = joblib.load("model.pkl")
+vectorizer = joblib.load("tfidf_vectorizer.pkl")
+
+# تحديد العناصر الواجهة
+st.title("Classifying sentiments ")
+text_input = st.text_input("Please enter text:")
+
+# التنبؤ بالتصنيف
+if text_input:
+    # تحويل النص إلى متجه TF-IDF
+    text_vectorized = vectorizer.transform([text_input])
+    # التنبؤ باستخدام النموذج
+    prediction = model.predict(text_vectorized)
+    # عرض نتيجة التنبؤ
+    if prediction == 1:
+        st.write("Positive: إيجابي")
+    elif prediction == -1:
+        st.write("Negative: سلبي")
+    else:
+        st.write("Neutral: طبيعي")
 
 # In[ ]:
 
