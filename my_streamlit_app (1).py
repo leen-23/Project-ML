@@ -2,9 +2,6 @@ import streamlit as st
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.svm import SVC
 import joblib
-vectorizer = joblib.load("/Users/leenharbi/Downloads/tfidf_vectorizer.pkl")
-import os
-print(os.path.exists("/Users/leenharbi/Downloads/tfidf_vectorizer.pkl"))
 
 # تحميل النموذج المدرب والمتجه
 model = joblib.load("model.pkl")
